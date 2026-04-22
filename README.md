@@ -25,3 +25,56 @@ A modular, high-performance Discord bot ecosystem designed for server management
 
 ## Academic Context
 This project was developed to demonstrate backend engineering skills, specifically focusing on event-driven architecture and cloud database integration. It highlights my ability to manage complex state across distributed sessions.
+
+
+nstallation & Setup
+To run The Abyss in your own environment for testing, follow these steps:
+
+1. Prerequisites
+Node.js (v16.11.0 or higher)
+
+npm or yarn
+
+A Supabase account (PostgreSQL)
+
+A Discord Developer application
+
+2. Clone and Install
+npm install
+4. Environment Variables
+Create a .env file in the root directory and populate it with your credentials:
+
+Code snippet
+TOKEN=your_discord_bot_token
+CLIENT_ID=your_discord_application_id
+GUILD_ID=your_test_server_id
+DATABASE_URL=your_supabase_postgresql_url
+DATABASE_KEY=your_supabase_anon_key
+4. Database Schema
+Ensure your Supabase instance has a table named config with the following columns:
+
+guild_id (Text)
+
+feature (Text)
+
+channel_id (Text)
+
+Primary Key: (guild_id, feature)
+
+5. Deployment
+Sync your slash commands with Discord's API:
+
+node deploy-commands.js
+Then, start the void:
+
+Bash
+node index.js
+⚙️ Testing the Features
+Once the bot is online in your test server, use these commands to verify the integration:
+
+Map the Logs:  /config feature:Message Logs channel:#your-log-channel
+
+Verify Database Write: Delete a message in any channel. Check your #your-log-channel to see the embed and check your Supabase dashboard to see the new row.
+
+AI Personality: /setpersonality prompt:You are a helpful assistant.
+Tag the bot or use its trigger to see it respond using your custom prompt from the DB.
