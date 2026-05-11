@@ -1,80 +1,177 @@
-# 🌑 The Abyss: Advanced Discord Ecosystem
+# The Abyss | Advanced Discord Ecosystem
 
-A modular, high-performance Discord bot ecosystem designed for server management, behavioral logging, and AI-driven interaction.
+The Abyss is a modular Discord bot ecosystem designed for community automation, behavioral analysis, and scalable server management. Built using an event-driven architecture, it leverages Node.js and Discord.js v14 with a Supabase PostgreSQL backend for persistent, real-time data handling.
 
-## Overview
-**The Abyss** is a backend-focused Discord application that showcases a scalable approach to bot development. It utilizes a modular handler architecture and real-time database synchronization via Supabase to provide a robust experience for large-scale communities.
+---
 
-## Key Technical Implementations
-* **Modular Architecture**: Logic is decoupled into dedicated handlers (moderation, logging, AI, leveling) for better maintainability.
-* **Database Persistence**: Uses Supabase (PostgreSQL) for real-time storage of server configurations, user streaks, and social bonds.
-* **Comprehensive Logging**: Real-time monitoring of message edits/deletes, voice state changes, and member updates.
-* **AI Integration**: Custom-built AI personality engine with server-specific caching and usage throttling.
+# Technical Overview
 
-## Tech Stack
-* **Language**: Node.js
-* **Library**: Discord.js v14
-* **Database**: Supabase / PostgreSQL
-* **Server**: Express (Heartbeat & Health Checks)
+The project is built around a **Zero-Monolith architecture**, meaning all features are fully decoupled into independent modules. This ensures scalability, maintainability, and easy feature expansion without affecting core functionality.
 
-## ⚙️ Core Commands
-* `/config`: Map bot features to specific channels.
-* `/setpersonality`: Define the AI's behavior via custom system prompts.
-* `/lockdown`: Administrative server-sealing logic.
-* `/tree`: Visualizes user relationship bonds stored in the DB.
+Key engineering focus areas:
+- Asynchronous event-driven design
+- Modular system architecture
+- Real-time database synchronization
+- API-driven AI integration
+- Enterprise-level logging and observability
 
-## Academic Context
-This project was developed to demonstrate backend engineering skills, specifically focusing on event-driven architecture and cloud database integration. It highlights my ability to manage complex state across distributed sessions.
+---
 
+# Core Architecture
 
-nstallation & Setup
-To run The Abyss in your own environment for testing, follow these steps:
+## Modular Handler System
+Each feature operates independently:
+- AI interaction module
+- Dynamic voice channel system
+- Logging and audit tracking system
+- Polling and engagement system
 
-1. Prerequisites
-Node.js (v16.11.0 or higher)
+This allows each module to be updated or replaced without breaking the system.
 
-npm or yarn
+## Database Layer
+- Supabase (PostgreSQL) backend
+- Real-time user data sync
+- Persistent configuration storage
+- Leveling and engagement tracking
 
-A Supabase account (PostgreSQL)
+## High Availability Design
+- Express.js heartbeat monitoring server
+- Global error handling system
+- Continuous uptime architecture (24/7 bot stability focus)
 
-A Discord Developer application
+---
 
-2. Clone and Install
-npm install
-4. Environment Variables
-Create a .env file in the root directory and populate it with your credentials:
+# Functional Modules
 
-Code snippet
+## AI and Data Integration
+- Large Language Model (LLM) API integration
+- Psychology-based response generation
+- Automated community interaction logic
+- Context-aware AI communication layer
+
+## Behavioral Tracking
+- User engagement analytics
+- Activity streak monitoring
+- Interaction frequency scoring
+- Community participation metrics
+
+---
+
+## Governance and Logging
+
+### Event Observability System
+Tracks detailed server activity:
+- Member joins/leaves
+- Role changes
+- Channel updates
+- Voice state transitions
+
+### Audit Log Resolution
+Uses Discord audit logs to identify:
+- Who performed moderation actions
+- Role modifications and permissions changes
+- Administrative actions across the server
+
+---
+
+## Infrastructure Utilities
+
+### Dynamic Voice Channels
+- Auto-creation of voice channels when users join
+- Automatic deletion when empty
+- Permission handling per session
+
+### Polling Engine
+- Interactive Discord button-based polls
+- Duplicate vote prevention
+- Real-time vote tracking
+- Progress visualization system
+
+---
+
+# Tech Stack
+
+- **Language:** JavaScript (Node.js)
+- **Framework:** Discord.js v14
+- **Database:** Supabase (PostgreSQL)
+- **AI Integration:** OpenAI / Gemini API (RESTful calls)
+- **Environment Management:** dotenv
+
+---
+
+# Installation and Deployment
+
+## 1. Prerequisites
+
+Make sure you have installed:
+
+- Node.js v18+
+- A Discord Bot (Token + Client ID)
+- Supabase Project (URL + API Key)
+
+---
+
+## 2. Environment Setup
+
+Create a `.env` file in the root directory:
+
+```bash
 TOKEN=your_discord_bot_token
-CLIENT_ID=your_discord_application_id
-GUILD_ID=your_test_server_id
-DATABASE_URL=your_supabase_postgresql_url
-DATABASE_KEY=your_supabase_anon_key
-4. Database Schema
-Ensure your Supabase instance has a table named config with the following columns:
+CLIENT_ID=your_bot_client_id
+SUPABASE_URL=your_supabase_url
+SUPABASE_KEY=your_supabase_anon_key
+PORT=3000
+```
 
-guild_id (Text)
+---
 
-feature (Text)
+## 3. Setup Instructions
 
-channel_id (Text)
+### Clone Repository
 
-Primary Key: (guild_id, feature)
+```bash
+git clone https://github.com/yourusername/the-abyss.git
+```
 
-5. Deployment
-Sync your slash commands with Discord's API:
+### Install Dependencies
 
+```bash
+npm install
+```
+
+### Deploy Slash Commands
+
+```bash
 node deploy-commands.js
-Then, start the void:
+```
 
-Bash
+### Run the Bot
+
+```bash
 node index.js
-⚙️ Testing the Features
-Once the bot is online in your test server, use these commands to verify the integration:
+```
 
-Map the Logs:  /config feature:Message Logs channel:#your-log-channel
+---
 
-Verify Database Write: Delete a message in any channel. Check your #your-log-channel to see the embed and check your Supabase dashboard to see the new row.
+# Future Development Goals
 
-AI Personality: /setpersonality prompt:You are a helpful assistant.
-Tag the bot or use its trigger to see it respond using your custom prompt from the DB.
+The roadmap is focused on scaling toward modern AI infrastructure standards:
+
+## Retrieval-Augmented Generation (RAG)
+- Upgrade AI system with vector database memory
+- Enable context-aware responses using stored server data
+
+## Containerization
+- Docker support for deployment
+- Portable multi-environment setups (dev/staging/production)
+
+## Self-Hosted Inference
+- Move toward local AI models
+- Reduce dependency on external APIs
+- Improve latency and cost efficiency
+
+---
+
+# License
+
+This project is intended for educational and development purposes.
