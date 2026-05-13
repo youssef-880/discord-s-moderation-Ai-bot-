@@ -18,26 +18,51 @@ app.listen(port, '0.0.0.0', () => {
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMembers,      // REQUIRED for PFP/Role/Nick changes
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.MessageContent,    // CRITICAL for Link/GIF detection
+    GatewayIntentBits.GuildModeration,   // REQUIRED for Ban/Unban logs
     GatewayIntentBits.GuildMessageReactions,
-    GatewayIntentBits.GuildVoiceStates // 🔥 ADDED: Required for Voice Join/Leave/Move logs
+    GatewayIntentBits.GuildVoiceStates,  // CRITICAL for Temp VCs
+    GatewayIntentBits.GuildPresences     // OPTIONAL but highly recommended for member tracking
   ],
-  // 🔥 REQUIRED for Starboard to work on old messages
-  partials: [Partials.Message, Partials.Reaction, Partials.User] 
+  partials: [
+    Partials.Message, 
+    Partials.Reaction, 
+    Partials.User, 
+    Partials.Channel, 
+    Partials.GuildMember                 // REQUIRED for logging member updates
+  ] 
 });
 
-// Increase listeners to prevent the "Memory Leak" warning
-client.setMaxListeners(30);
+// Optimization: Increase max listeners to accommodate many handlers
+client.setMaxListeners(50);
 
 // ─── 3. LOADING HANDLERS ──────────────────────────────────────
 const handlers = [
-    'ready', 'welcome', 'commands', 'moderation', 'ai', 
-    'leveling', 'actions', 'config', 'rules', 'streak', 
-    'swearjar', 'dailyContent', 'help', 'logger', 'triggers',
-    'sticky', 'family', 'starboard' // 🔥 ADDED Starboard here
+    'ready', 
+    'welcome', 
+    'commands', 
+    'moderation', 
+    'ai', 
+    'leveling', 
+    'actions', 
+    'config', 
+    'rules', 
+    'streak', 
+    'swearjar', 
+    'dailyContent', 
+    'help', 
+    'logger',           // Your existing logger
+    'advancedLogs',     // NEW: The Carl-bot style advanced logging
+    'triggers',
+    'sticky', 
+    'family', 
+    'starboard', 
+    'guardian', 
+    'guardianActions',
+    'polls',    
+    'tempVC'    
 ];
 
 handlers.forEach(handler => {

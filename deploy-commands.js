@@ -122,8 +122,9 @@ const commands = [
           { name: 'Daily Debate', value: 'daily-debate' },
           { name: 'Daily Philosophy', value: 'daily-philosophy' },
           { name: 'Daily Resources', value: 'daily-resources' },
+          { name: 'Daily Memes', value: 'daily-memes' },
           { name: 'Swear Jar Channel', value: 'swear-jar' },
-          { name: 'Starboard Channel', value: 'starboard_channel' } // ADDED
+          { name: 'Starboard Channel', value: 'starboard_channel' }
         ]
       },
       {
@@ -146,27 +147,61 @@ const commands = [
     description: 'View all current bot channel settings'
   },
   {
-    name: 'setdailyrole',
-    description: 'Set a role to be pinged for daily content',
+    name: 'setdailytime',
+    description: 'Set the transmission time and timezone for a daily feature',
     options: [
       {
         name: 'feature',
-        description: 'The category to set the role for',
+        description: 'Which feature to schedule',
         type: ApplicationCommandOptionType.String,
         required: true,
         choices: [
           { name: 'Psychology', value: 'daily-psychology' },
           { name: 'Gaming', value: 'daily-gaming' },
-          { name: 'Debate', value: 'daily-debate' },
+          { name: 'Memes', value: 'daily-memes' },
           { name: 'Philosophy', value: 'daily-philosophy' },
+          { name: 'Debate', value: 'daily-debate' },
           { name: 'Resources', value: 'daily-resources' }
         ]
       },
       {
-        name: 'role',
-        description: 'The role to ping',
-        type: ApplicationCommandOptionType.Role,
-        required: true
+        name: 'hour',
+        description: 'The hour (1-12)',
+        type: ApplicationCommandOptionType.Integer,
+        required: true,
+        min_value: 1,
+        max_value: 12
+      },
+      {
+        name: 'minute',
+        description: 'The minute (0-59)',
+        type: ApplicationCommandOptionType.Integer,
+        required: true,
+        min_value: 0,
+        max_value: 59
+      },
+      {
+        name: 'period',
+        description: 'AM or PM',
+        type: ApplicationCommandOptionType.String,
+        required: true,
+        choices: [
+          { name: 'AM', value: 'AM' },
+          { name: 'PM', value: 'PM' }
+        ]
+      },
+      {
+        name: 'timezone',
+        description: 'Select the local timezone for this schedule',
+        type: ApplicationCommandOptionType.String,
+        required: true,
+        choices: [
+          { name: 'Eastern Time (US/NY)', value: 'America/New_York' },
+          { name: 'Germany/Europe (CET)', value: 'Europe/Berlin' },
+          { name: 'London/UK (GMT)', value: 'Europe/London' },
+          { name: 'Pacific Time (US/LA)', value: 'America/Los_Angeles' },
+          { name: 'UTC', value: 'UTC' }
+        ]
       }
     ]
   },
@@ -184,7 +219,8 @@ const commands = [
           { name: 'Gaming', value: 'daily-gaming' },
           { name: 'Debate', value: 'daily-debate' },
           { name: 'Philosophy', value: 'daily-philosophy' },
-          { name: 'Resources', value: 'daily-resources' }
+          { name: 'Resources', value: 'daily-resources' },
+          { name: 'Memes', value: 'daily-memes' }
         ]
       }
     ]
@@ -308,8 +344,6 @@ const commands = [
     name: 'listtriggers',
     description: 'View all active triggers for this server'
   },
-
-  // Relationship commands
   {
     name: 'marry',
     description: 'Bind your soul to another.',
@@ -406,8 +440,6 @@ const commands = [
     name: 'help',
     description: 'View all bot commands and features'
   },
-
-  // for the ai personality 
   {
     name: 'setpersonality',
     description: 'Change the underlying soul and behavior of the AI for this server',
@@ -420,14 +452,10 @@ const commands = [
         }
     ]
   },
-  
-  // for the ai personality reset
   {
     name: 'resetpersonality',
     description: 'Restore the AI back to its original default personality'
   },
-
-  // 🔥 AI LIMIT COMMANDS
   {
     name: 'toggleailimit',
     description: 'Enable or disable daily AI message limits',
@@ -435,14 +463,61 @@ const commands = [
         { name: 'enabled', description: 'Enable limits?', type: ApplicationCommandOptionType.Boolean, required: true }
     ]
   },
+  
+  {
+    name: 'poll',
+    description: 'Create a sophisticated button-based poll',
+    options: [
+        { name: 'question', type: ApplicationCommandOptionType.String, description: 'The question to ask', required: true },
+        { name: 'duration', type: ApplicationCommandOptionType.Integer, description: 'Duration in HOURS (e.g. 24)', required: true },
+        { name: 'option1', type: ApplicationCommandOptionType.String, description: 'First option', required: true },
+        { name: 'option2', type: ApplicationCommandOptionType.String, description: 'Second option', required: true },
+        { name: 'option3', type: ApplicationCommandOptionType.String, description: 'Third option', required: false },
+        { name: 'option4', type: ApplicationCommandOptionType.String, description: 'Fourth option', required: false }
+    ]
+  },
+
+  {
+    name: 'privatevc',
+    description: 'Summon a temporary private voice channel in the void',
+    options: [
+        {
+            name: 'name',
+            type: ApplicationCommandOptionType.String,
+            description: 'The name of your room',
+            required: true
+        },
+        {
+            name: 'limit',
+            type: ApplicationCommandOptionType.Integer,
+            description: 'Member limit (1-99)',
+            required: false,
+            min_value: 1,
+            max_value: 99
+        },
+        {
+            name: 'invite',
+            type: ApplicationCommandOptionType.User,
+            description: 'A specific soul you want to grant access to',
+            required: false
+        }
+    ]
+  },
+  
   {
     name: 'setailimit',
     description: 'Set the daily AI message limit per user',
     options: [
         { name: 'count', description: 'Number of messages allowed', type: ApplicationCommandOptionType.Integer, required: true }
     ]
+  },
+  {
+    name: 'resetstrikes',
+    description: 'Clear all Guardian strikes for a specific user (Admin Only)',
+    options: [
+      { name: 'user', description: 'The user to pardon', type: ApplicationCommandOptionType.User, required: true }
+    ]
   }
-
 ];
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
